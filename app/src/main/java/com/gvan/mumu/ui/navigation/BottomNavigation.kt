@@ -1,6 +1,8 @@
 package com.gvan.mumu.ui.navigation
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -60,7 +62,7 @@ fun AppBottomNavigation(navController: NavController) {
                 },
                 label = { Text(text = item.title, fontSize = 9.sp) },
                 selectedContentColor = Color.Black,
-                unselectedContentColor = Color.DarkGray,
+                unselectedContentColor = Color.Gray,
                 alwaysShowLabel = true,
                 selected = currentRoute == item.route,
                 onClick = {
@@ -79,13 +81,14 @@ fun AppBottomNavigation(navController: NavController) {
     }
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreenView() {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { AppBottomNavigation(navController = navController) }
-    ) {
-        NavigationGraph(navController = navController)
+    ) {innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            NavigationGraph(navController = navController)
+        }
     }
 }

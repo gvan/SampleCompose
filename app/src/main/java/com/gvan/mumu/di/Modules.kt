@@ -12,11 +12,10 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.create
 
 @Module
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+object Modules {
 
     @Provides
     fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
