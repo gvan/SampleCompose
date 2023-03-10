@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.gvan.mumu.data.model.Video
 import com.gvan.mumu.data.model.VideoAttributes
 import com.gvan.mumu.ui.compose.home.HomeScreen
+import com.gvan.mumu.ui.navigation.MainScreenView
 import com.gvan.mumu.ui.theme.MumuTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,13 +24,7 @@ class MainActivity : ComponentActivity() {
         
         setContent {
             MumuTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    HomeScreen()
-                }
+                MainScreenView()
             }
         }
     }

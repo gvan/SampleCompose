@@ -7,6 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.gvan.mumu.data.model.Video
@@ -15,7 +16,7 @@ import com.gvan.mumu.data.model.Video
 fun HomeScreen(
     modifier: Modifier = Modifier,
     onVideoClick: (Video) -> Unit = {},
-    viewModel: HomeViewModel = viewModel(),
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
