@@ -21,7 +21,6 @@ class HomeViewModel @Inject constructor(
     fun fetchVideos() {
         viewModelScope.launch {
             videoRepository.getVideos()
-                .flowOn(Dispatchers.IO)
                 .collect { response ->
                     _state.update {
                         it.copy(
