@@ -1,5 +1,6 @@
-package com.gvan.mumu.ui.compose.home
+package com.gvan.mumu.ui.compose.home.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,7 +16,10 @@ import com.gvan.mumu.utils.Const
 @Composable
 fun VideoListItem(video: Video, onClick: () -> Unit) {
     Column(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .clickable { onClick() }
+            .padding(16.dp)
+
     ) {
         AsyncImage(
             model = Const.BASE_URL.dropLast(1) + video.attributes.image.data.attributes.formats.medium.url,

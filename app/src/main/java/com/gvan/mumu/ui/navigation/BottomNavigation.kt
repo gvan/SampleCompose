@@ -21,18 +21,22 @@ import androidx.navigation.compose.rememberNavController
 import com.gvan.mumu.ui.compose.channels.ChannelsScreen
 import com.gvan.mumu.ui.compose.home.HomeScreen
 import com.gvan.mumu.ui.compose.profile.ProfileScreen
+import com.gvan.mumu.ui.compose.video.VideoScreen
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
     NavHost(navController, startDestination = BottomNavItem.Home.route) {
         composable(BottomNavItem.Home.route) {
-            HomeScreen()
+            HomeScreen(navController = navController)
         }
         composable(BottomNavItem.Channels.route) {
             ChannelsScreen()
         }
         composable(BottomNavItem.Profile.route) {
             ProfileScreen()
+        }
+        composable("video") {
+            VideoScreen()
         }
     }
 }
