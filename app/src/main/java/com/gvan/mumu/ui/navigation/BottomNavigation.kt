@@ -1,6 +1,5 @@
 package com.gvan.mumu.ui.navigation
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,10 +17,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.gvan.mumu.ui.compose.channels.ChannelsScreen
-import com.gvan.mumu.ui.compose.home.HomeScreen
-import com.gvan.mumu.ui.compose.profile.ProfileScreen
-import com.gvan.mumu.ui.compose.video.VideoScreen
+import com.gvan.mumu.ui.screens.channels.ChannelsScreen
+import com.gvan.mumu.ui.screens.home.HomeScreen
+import com.gvan.mumu.ui.screens.profile.ProfileScreen
+import com.gvan.mumu.ui.screens.video.VideoScreen
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {

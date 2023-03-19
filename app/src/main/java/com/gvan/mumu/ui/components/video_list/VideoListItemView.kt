@@ -1,4 +1,4 @@
-package com.gvan.mumu.ui.compose.home.list
+package com.gvan.mumu.ui.screens.home.list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

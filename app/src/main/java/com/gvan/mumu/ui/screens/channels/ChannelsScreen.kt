@@ -1,4 +1,4 @@
-package com.gvan.mumu.ui.compose.channels
+package com.gvan.mumu.ui.screens.channels
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Scaffold

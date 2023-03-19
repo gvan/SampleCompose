@@ -1,8 +1,5 @@
-package com.gvan.mumu.ui.compose.home
+package com.gvan.mumu.ui.screens.home
 
-import android.annotation.SuppressLint
-import android.util.Log
-import android.view.Display.Mode
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,7 +15,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.gvan.mumu.data.model.Video
-import com.gvan.mumu.ui.compose.home.list.VideoListItem
+import com.gvan.mumu.ui.components.video_list.VideoList
+import com.gvan.mumu.ui.screens.home.list.VideoListItem
 import com.gvan.mumu.ui.navigation.BottomNavItem
 
 @Composable
@@ -50,16 +48,10 @@ fun HomeScreen(
         },
         content = { padding ->
             Box(modifier = Modifier.padding(padding)) {
-                LazyColumn() {
-                    items(
-                        items = state.videos,
-                        key = { it.id }
-                    ) { video ->
-                        VideoListItem(video = video) {
-                            onVideoClick(video)
-                        }
-                    }
-                }
+                VideoList(
+                    videos = state.videos,
+                    onVideoClick = {onVideoClick(video = it)}
+                )
             }
         }
     )

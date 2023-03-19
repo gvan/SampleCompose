@@ -1,12 +1,10 @@
-package com.gvan.mumu.ui.compose.home
+package com.gvan.mumu.ui.screens.home
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gvan.mumu.data.model.Video
 import com.gvan.mumu.data.repository.VideoRepository
 import com.gvan.mumu.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject

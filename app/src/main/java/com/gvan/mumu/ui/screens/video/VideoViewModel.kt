@@ -1,4 +1,4 @@
-package com.gvan.mumu.ui.compose.video
+package com.gvan.mumu.ui.screens.video
 
 import androidx.lifecycle.viewModelScope
 import com.gvan.mumu.data.model.Video
@@ -30,8 +30,22 @@ class VideoViewModel @Inject constructor(
         }
     }
 
+    fun fetchVideos() {
+        viewModelScope.launch {
+            videoRepository.getVideos()
+                .collect {response ->
+                    _state.update {
+                        it.copy(
+                            videos = response.data
+                        )
+                    }
+                }
+        }
+    }
+
 }
 
 data class VideoViewState(
-    val video: Video? = null
+    val video: Video? = null,
+    val videos: List<Video> = emptyList()
 )

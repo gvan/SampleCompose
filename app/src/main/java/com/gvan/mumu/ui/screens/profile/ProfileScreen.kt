@@ -1,4 +1,4 @@
-package com.gvan.mumu.ui.compose.profile
+package com.gvan.mumu.ui.screens.profile
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

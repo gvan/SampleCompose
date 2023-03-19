@@ -1,8 +1,7 @@
-package com.gvan.mumu.ui.compose.video.component
+package com.gvan.mumu.ui.screens.video.component
 
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.*
