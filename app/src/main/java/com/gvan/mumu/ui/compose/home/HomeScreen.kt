@@ -1,8 +1,15 @@
 package com.gvan.mumu.ui.compose.home
 
+import android.annotation.SuppressLint
 import android.util.Log
+import android.view.Display.Mode
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,14 +40,28 @@ fun HomeScreen(
         viewModel.fetchVideos()
     }
 
-    LazyColumn() {
-        items(
-            items = state.videos,
-            key = { it.id }
-        ) { video ->
-            VideoListItem(video = video) {
-                onVideoClick(video)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = "Home")
+                },
+            )
+        },
+        content = { padding ->
+            Box(modifier = Modifier.padding(padding)) {
+                LazyColumn() {
+                    items(
+                        items = state.videos,
+                        key = { it.id }
+                    ) { video ->
+                        VideoListItem(video = video) {
+                            onVideoClick(video)
+                        }
+                    }
+                }
             }
         }
-    }
+    )
+
 }

@@ -1,5 +1,6 @@
 package com.gvan.mumu.data.repository
 
+import com.gvan.mumu.data.model.SingleVideoData
 import com.gvan.mumu.data.remote.api.MumuApi
 import com.gvan.mumu.data.model.Video
 import com.gvan.mumu.data.model.VideoData
@@ -14,5 +15,9 @@ class VideoRepositoryImpl @Inject constructor(override val mumuApi: MumuApi) : V
 
     override suspend fun getVideos(): Flow<VideoData> = flow {
         emit(mumuApi.getVideos())
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun getVideo(id: Int): Flow<SingleVideoData> = flow {
+        emit(mumuApi.getVideo(id))
     }.flowOn(Dispatchers.IO)
 }

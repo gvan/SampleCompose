@@ -36,7 +36,7 @@ fun NavigationGraph(navController: NavHostController) {
             ProfileScreen()
         }
         composable("video") {
-            VideoScreen()
+            VideoScreen(navController = navController)
         }
     }
 }
