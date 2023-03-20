@@ -7,12 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.gvan.mumu.data.model.Video
+import com.gvan.mumu.data.model.Media
 import com.gvan.mumu.utils.Const
 
 
 @Composable
-fun VideoListItem(video: Video, onClick: () -> Unit) {
+fun VideoListItem(video: Media, onClick: () -> Unit) {
     Column(
         modifier = Modifier
             .clickable { onClick() }

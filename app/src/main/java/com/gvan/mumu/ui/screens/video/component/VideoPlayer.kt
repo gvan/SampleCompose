@@ -15,6 +15,7 @@ import com.google.android.exoplayer2.ui.PlayerView
 
 @Composable
 fun VideoPlayer(
+    videoUrl: String,
 ) {
     val context = LocalContext.current
     var playWhenReady by remember {
@@ -22,7 +23,7 @@ fun VideoPlayer(
     }
     val exoPlayer = remember {
         ExoPlayer.Builder(context).build().apply {
-            setMediaItem(MediaItem.fromUri("https://api.mumu.in.ua/uploads/01_Popeye_for_President_6cb43625b2.mp4"))
+            setMediaItem(MediaItem.fromUri(videoUrl))
             repeatMode = ExoPlayer.REPEAT_MODE_ALL
             playWhenReady = playWhenReady
             prepare()

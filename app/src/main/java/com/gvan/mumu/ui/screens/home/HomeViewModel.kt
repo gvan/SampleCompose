@@ -1,8 +1,7 @@
 package com.gvan.mumu.ui.screens.home
 
 import androidx.lifecycle.viewModelScope
-import com.gvan.mumu.data.model.Video
-import com.gvan.mumu.data.repository.VideoRepository
+import com.gvan.mumu.data.model.Media
 import com.gvan.mumu.domain.GetVideosUseCase
 import com.gvan.mumu.ui.base.BaseViewModel
 import com.gvan.mumu.utils.ViewState
@@ -44,5 +43,5 @@ class HomeViewModel @Inject constructor(
 
 data class HomeViewState(
     val loading: Boolean = false,
-    val videos: List<Video> = emptyList()
+    val videos: List<Media> = emptyList()
 )

@@ -1,5 +1,6 @@
 package com.gvan.mumu.ui.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -13,10 +14,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.gvan.mumu.ui.screens.channels.ChannelsScreen
 import com.gvan.mumu.ui.screens.home.HomeScreen
 import com.gvan.mumu.ui.screens.profile.ProfileScreen
@@ -34,8 +37,12 @@ fun NavigationGraph(navController: NavHostController) {
         composable(BottomNavItem.Profile.route) {
             ProfileScreen()
         }
-        composable("video") {
-            VideoScreen(navController = navController)
+        composable(
+            "video/{videoId}",
+            arguments = listOf(navArgument("videoId") { type = NavType.IntType })
+        ) { navBackEntry ->
+            val videoId = navBackEntry.arguments?.getInt("videoId")
+            VideoScreen(navController = navController, videoId = videoId)
         }
     }
 }
@@ -89,7 +96,7 @@ fun MainScreenView() {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { AppBottomNavigation(navController = navController) }
-    ) {innerPadding ->
+    ) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding)) {
             NavigationGraph(navController = navController)
         }

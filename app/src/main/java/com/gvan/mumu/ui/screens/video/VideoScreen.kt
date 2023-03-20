@@ -10,13 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.gvan.mumu.data.model.Video
+import com.gvan.mumu.data.model.Media
 import com.gvan.mumu.ui.components.video_list.VideoList
-import com.gvan.mumu.ui.navigation.BottomNavItem
 import com.gvan.mumu.ui.screens.video.component.VideoPlayer
+import com.gvan.mumu.utils.Const
 
 @Composable
 fun VideoScreen(
+    videoId: Int?,
     navController: NavController,
     viewModel: VideoViewModel = hiltViewModel(),
 ) {
@@ -24,11 +25,13 @@ fun VideoScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
-        viewModel.fetchVideo()
+        if(videoId != null) {
+            viewModel.fetchVideo(videoId)
+        }
         viewModel.fetchVideos()
     }
 
-    fun onVideoClick(video: Video) {
+    fun onVideoClick(video: Media) {
 
     }
 
@@ -56,7 +59,10 @@ fun VideoScreen(
                     .padding(padding)
             ) {
 
-                VideoPlayer()
+                if(state.video != null) {
+                    VideoPlayer(state.video!!.attributes.video.data.attributes.url)
+                }
+
                 Text(text = state.video?.attributes?.name ?: "")
                 VideoList(videos = state.videos, onVideoClick = { onVideoClick(video = it) })
             }

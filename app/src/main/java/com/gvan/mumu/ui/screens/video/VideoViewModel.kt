@@ -1,8 +1,7 @@
 package com.gvan.mumu.ui.screens.video
 
 import androidx.lifecycle.viewModelScope
-import com.gvan.mumu.data.model.Video
-import com.gvan.mumu.data.repository.VideoRepository
+import com.gvan.mumu.data.model.Media
 import com.gvan.mumu.domain.GetVideoUseCase
 import com.gvan.mumu.domain.GetVideosUseCase
 import com.gvan.mumu.ui.base.BaseViewModel
@@ -11,7 +10,6 @@ import com.gvan.mumu.utils.getViewStateFlowForNetworkCall
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,9 +22,9 @@ class VideoViewModel @Inject constructor(
     private val _state = MutableStateFlow(VideoViewState())
     val state: StateFlow<VideoViewState> = _state
 
-    fun fetchVideo() {
+    fun fetchVideo(videoId: Int) {
         viewModelScope.launch {
-            getViewStateFlowForNetworkCall { getVideoUseCase.getVideo(1) }
+            getViewStateFlowForNetworkCall { getVideoUseCase.getVideo(videoId) }
                 .collect { response ->
                     when (response) {
                         is ViewState.Loading -> {}
@@ -66,6 +64,6 @@ class VideoViewModel @Inject constructor(
 
 data class VideoViewState(
     val loading: Boolean = false,
-    val video: Video? = null,
-    val videos: List<Video> = emptyList()
+    val video: Media? = null,
+    val videos: List<Media> = emptyList()
 )
