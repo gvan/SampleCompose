@@ -28,7 +28,7 @@ class VideoViewModel @Inject constructor(
         viewModelScope.launch {
             getViewStateFlowForNetworkCall { getVideoUseCase.getVideo(1) }
                 .collect { response ->
-                    when(response) {
+                    when (response) {
                         is ViewState.Loading -> {}
                         is ViewState.RenderSuccess -> {
                             _state.update {
@@ -44,9 +44,11 @@ class VideoViewModel @Inject constructor(
     fun fetchVideos() {
         viewModelScope.launch {
             getViewStateFlowForNetworkCall { getVideosUseCase.getVideos() }
-                .collect {response ->
-                    when(response) {
-                        is ViewState.Loading -> {}
+                .collect { response ->
+                    when (response) {
+                        is ViewState.Loading -> {
+                            _state.update { it.copy(loading = response.isLoading) }
+                        }
                         is ViewState.RenderSuccess -> {
                             _state.update {
                                 it.copy(
@@ -63,6 +65,7 @@ class VideoViewModel @Inject constructor(
 }
 
 data class VideoViewState(
+    val loading: Boolean = false,
     val video: Video? = null,
     val videos: List<Video> = emptyList()
 )

@@ -1,8 +1,6 @@
 package com.gvan.mumu.ui.screens.video
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -60,7 +58,12 @@ fun VideoScreen(
 
                 VideoPlayer()
                 Text(text = state.video?.attributes?.name ?: "")
-                VideoList(videos = state.videos, onVideoClick = {onVideoClick(video = it)})
+                VideoList(videos = state.videos, onVideoClick = { onVideoClick(video = it) })
+            }
+            if (state.loading) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
             }
         }
     )

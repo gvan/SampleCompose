@@ -23,8 +23,10 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             getViewStateFlowForNetworkCall { getVideosUseCase.getVideos() }
                 .collect { response ->
-                    when(response) {
-                        is ViewState.Loading -> {}
+                    when (response) {
+                        is ViewState.Loading -> {
+                            _state.update { it.copy(loading = response.isLoading) }
+                        }
                         is ViewState.RenderSuccess -> {
                             _state.update {
                                 it.copy(
@@ -41,5 +43,6 @@ class HomeViewModel @Inject constructor(
 }
 
 data class HomeViewState(
+    val loading: Boolean = false,
     val videos: List<Video> = emptyList()
 )
