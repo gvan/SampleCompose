@@ -11,8 +11,8 @@ interface VideoRepository {
 
     val mumuApi: MumuApi
 
-    suspend fun getVideos(): Flow<VideoData>
+    suspend fun getVideos(): Flow<IOTaskResult<VideoData>>
 
-    suspend fun getVideo(id: Int): Flow<SingleVideoData>
+    suspend fun getVideo(id: Int): Flow<IOTaskResult<SingleVideoData>>
 
 }

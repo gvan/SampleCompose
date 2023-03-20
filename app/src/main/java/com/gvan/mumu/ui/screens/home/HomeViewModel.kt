@@ -5,6 +5,8 @@ import com.gvan.mumu.data.model.Video
 import com.gvan.mumu.data.repository.VideoRepository
 import com.gvan.mumu.domain.GetVideosUseCase
 import com.gvan.mumu.ui.base.BaseViewModel
+import com.gvan.mumu.utils.ViewState
+import com.gvan.mumu.utils.getViewStateFlowForNetworkCall
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -19,12 +21,18 @@ class HomeViewModel @Inject constructor(
 
     fun fetchVideos() {
         viewModelScope.launch {
-            getVideosUseCase.getVideos()
+            getViewStateFlowForNetworkCall { getVideosUseCase.getVideos() }
                 .collect { response ->
-                    _state.update {
-                        it.copy(
-                            videos = response.data
-                        )
+                    when(response) {
+                        is ViewState.Loading -> {}
+                        is ViewState.RenderSuccess -> {
+                            _state.update {
+                                it.copy(
+                                    videos = response.output.data
+                                )
+                            }
+                        }
+                        is ViewState.RenderFailure -> {}
                     }
                 }
         }

@@ -6,6 +6,8 @@ import com.gvan.mumu.data.repository.VideoRepository
 import com.gvan.mumu.domain.GetVideoUseCase
 import com.gvan.mumu.domain.GetVideosUseCase
 import com.gvan.mumu.ui.base.BaseViewModel
+import com.gvan.mumu.utils.ViewState
+import com.gvan.mumu.utils.getViewStateFlowForNetworkCall
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,10 +26,16 @@ class VideoViewModel @Inject constructor(
 
     fun fetchVideo() {
         viewModelScope.launch {
-            getVideoUseCase.getVideo(1)
+            getViewStateFlowForNetworkCall { getVideoUseCase.getVideo(1) }
                 .collect { response ->
-                    _state.update {
-                        it.copy(video = response.data)
+                    when(response) {
+                        is ViewState.Loading -> {}
+                        is ViewState.RenderSuccess -> {
+                            _state.update {
+                                it.copy(video = response.output.data)
+                            }
+                        }
+                        is ViewState.RenderFailure -> {}
                     }
                 }
         }
@@ -35,12 +43,18 @@ class VideoViewModel @Inject constructor(
 
     fun fetchVideos() {
         viewModelScope.launch {
-            getVideosUseCase.getVideos()
+            getViewStateFlowForNetworkCall { getVideosUseCase.getVideos() }
                 .collect {response ->
-                    _state.update {
-                        it.copy(
-                            videos = response.data
-                        )
+                    when(response) {
+                        is ViewState.Loading -> {}
+                        is ViewState.RenderSuccess -> {
+                            _state.update {
+                                it.copy(
+                                    videos = response.output.data
+                                )
+                            }
+                        }
+                        is ViewState.RenderFailure -> {}
                     }
                 }
         }
