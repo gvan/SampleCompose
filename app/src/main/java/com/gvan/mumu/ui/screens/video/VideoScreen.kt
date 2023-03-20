@@ -12,6 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.gvan.mumu.data.model.Video
+import com.gvan.mumu.ui.components.video_list.VideoList
+import com.gvan.mumu.ui.navigation.BottomNavItem
 import com.gvan.mumu.ui.screens.video.component.VideoPlayer
 
 @Composable
@@ -24,6 +27,11 @@ fun VideoScreen(
 
     LaunchedEffect(true) {
         viewModel.fetchVideo()
+        viewModel.fetchVideos()
+    }
+
+    fun onVideoClick(video: Video) {
+
     }
 
     Scaffold(
@@ -52,6 +60,7 @@ fun VideoScreen(
 
                 VideoPlayer()
                 Text(text = state.video?.attributes?.name ?: "")
+                VideoList(videos = state.videos, onVideoClick = {onVideoClick(video = it)})
             }
         }
     )

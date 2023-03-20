@@ -1,5 +1,6 @@
 package com.gvan.mumu.ui.screens.home
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,16 +27,16 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
 
-    fun onVideoClick(video: Video) {
-        navController.navigate("video") {
-            popUpTo(BottomNavItem.Home.route)
-        }
-    }
-
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
         viewModel.fetchVideos()
+    }
+
+    fun onVideoClick(video: Video) {
+        navController.navigate("video") {
+            popUpTo(BottomNavItem.Home.route)
+        }
     }
 
     Scaffold(
