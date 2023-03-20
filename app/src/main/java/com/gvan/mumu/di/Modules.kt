@@ -3,6 +3,10 @@ package com.gvan.mumu.di
 import com.gvan.mumu.data.remote.api.MumuApi
 import com.gvan.mumu.data.repository.VideoRepository
 import com.gvan.mumu.data.repository.VideoRepositoryImpl
+import com.gvan.mumu.domain.GetVideoUseCase
+import com.gvan.mumu.domain.GetVideoUseCaseImpl
+import com.gvan.mumu.domain.GetVideosUseCase
+import com.gvan.mumu.domain.GetVideosUseCaseImpl
 import com.gvan.mumu.utils.Const
 import dagger.Module
 import dagger.Provides
@@ -40,5 +44,11 @@ object Modules {
 
     @Provides
     fun provideVideoRepository(mumuApi: MumuApi) : VideoRepository = VideoRepositoryImpl(mumuApi)
+
+    @Provides
+    fun provideGetVideoUseCase(repository: VideoRepository) : GetVideoUseCase = GetVideoUseCaseImpl(repository)
+
+    @Provides
+    fun provideGetVideosUseCase(repository: VideoRepository) : GetVideosUseCase = GetVideosUseCaseImpl(repository)
 
 }
