@@ -21,6 +21,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.gvan.mumu.ui.screens.channels.ChannelsScreen
+import com.gvan.mumu.ui.screens.create_channel.CreateChannelScreen
 import com.gvan.mumu.ui.screens.home.HomeScreen
 import com.gvan.mumu.ui.screens.profile.ProfileScreen
 import com.gvan.mumu.ui.screens.video.VideoScreen
@@ -32,7 +33,7 @@ fun NavigationGraph(navController: NavHostController) {
             HomeScreen(navController = navController)
         }
         composable(BottomNavItem.Channels.route) {
-            ChannelsScreen()
+            ChannelsScreen(navController = navController)
         }
         composable(BottomNavItem.Profile.route) {
             ProfileScreen()
@@ -43,6 +44,9 @@ fun NavigationGraph(navController: NavHostController) {
         ) { navBackEntry ->
             val videoId = navBackEntry.arguments?.getInt("videoId")
             VideoScreen(navController = navController, videoId = videoId)
+        }
+        composable("createChannel") {
+            CreateChannelScreen(navController = navController)
         }
     }
 }

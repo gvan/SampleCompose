@@ -1,6 +1,8 @@
 package com.gvan.mumu.di
 
 import com.gvan.mumu.data.remote.api.MumuApi
+import com.gvan.mumu.data.repository.ChannelsRepository
+import com.gvan.mumu.data.repository.ChannelsRepositoryImpl
 import com.gvan.mumu.data.repository.VideoRepository
 import com.gvan.mumu.data.repository.VideoRepositoryImpl
 import com.gvan.mumu.domain.GetVideoUseCase
@@ -44,6 +46,9 @@ object Modules {
 
     @Provides
     fun provideVideoRepository(mumuApi: MumuApi) : VideoRepository = VideoRepositoryImpl(mumuApi)
+
+    @Provides
+    fun provideChannelsRepository(mumuApi: MumuApi) : ChannelsRepository = ChannelsRepositoryImpl(mumuApi)
 
     @Provides
     fun provideGetVideoUseCase(repository: VideoRepository) : GetVideoUseCase = GetVideoUseCaseImpl(repository)

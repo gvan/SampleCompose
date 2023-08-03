@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -17,6 +18,10 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ProfileScreen() {
+
+    fun googleSignIn() {
+
+    }
 
     Scaffold(
         topBar = {
@@ -33,14 +38,11 @@ fun ProfileScreen() {
                     .wrapContentSize(Alignment.Center)
                     .padding(padding)
             ) {
-                Text(
-                    text = "Profile Screen",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    color = Color.Blue,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    textAlign = TextAlign.Center,
-                )
+                Button(
+                    onClick = { googleSignIn() }
+                ) {
+                    Text(text = "Google SignIn")
+                }
             }
         }
     )

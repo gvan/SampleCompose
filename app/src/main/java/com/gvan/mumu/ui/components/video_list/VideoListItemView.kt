@@ -29,7 +29,8 @@ fun VideoListItem(video: Media, onClick: () -> Unit) {
                 modifier = Modifier.fillMaxWidth()
             )
         }
-        Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp)) {
+        Column(modifier = Modifier
+            .padding(start = 16.dp, end = 16.dp)) {
             Text(
                 text = video.attributes.name
             )

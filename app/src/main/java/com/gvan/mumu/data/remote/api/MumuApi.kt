@@ -1,5 +1,7 @@
 package com.gvan.mumu.data.remote.api
 
+import com.gvan.mumu.data.model.Channel
+import com.gvan.mumu.data.model.ChannelData
 import com.gvan.mumu.data.model.SingleMediaData
 import com.gvan.mumu.data.model.MediaData
 import retrofit2.Response
@@ -15,5 +17,8 @@ interface MumuApi {
 
     @GET("/api/videos/{id}?populate=*")
     suspend fun getVideo(@Path("id") id: Int): Response<SingleMediaData>
+
+    @GET("/api/channels?populate=*")
+    suspend fun getChannels(): Response<Channel>
 
 }
