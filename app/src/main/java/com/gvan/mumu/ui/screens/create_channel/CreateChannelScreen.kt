@@ -1,9 +1,17 @@
 package com.gvan.mumu.ui.screens.create_channel
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
@@ -15,15 +23,23 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.node.modifierElementOf
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 
 @Composable
 fun CreateChannelScreen(
@@ -32,6 +48,15 @@ fun CreateChannelScreen(
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val focusManager = LocalFocusManager.current
+    val galleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = {uri -> viewModel.onImageChange(uri)}
+    )
+
+    fun onPickImageClicked() {
+        galleryLauncher.launch("image/*")
+    }
 
     Scaffold(
         topBar = {
@@ -50,18 +75,42 @@ fun CreateChannelScreen(
             Column(
                 modifier = Modifier
                     .padding(16.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Box(modifier = Modifier
+                    .padding(top = 32.dp)
+                    .clickable { onPickImageClicked() }
+                ) {
+                    AsyncImage(
+                        model = state.imageUrl,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(128.dp)
+                            .clip(RoundedCornerShape(64.dp)),
+                        contentScale = ContentScale.Crop
+                    )
+                    Icon(
+                        imageVector = Icons.Filled.Edit,
+                        contentDescription = "Set image",
+                        modifier = Modifier.align(Alignment.BottomEnd)
+                    )
+                }
                 OutlinedTextField(
                     value = state.name,
                     onValueChange = {viewModel.onNameChange(it)},
                     label = { Text(text = "Name")},
                     singleLine = true,
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
                     keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Sentences
-                    )
+                        capitalization = KeyboardCapitalization.Sentences,
+                        imeAction = ImeAction.Next
+                    ),
+                    keyboardActions = KeyboardActions {
+                        focusManager.moveFocus(FocusDirection.Next)
+                    }
                 )
                 OutlinedTextField(
                     value = state.description,
@@ -73,7 +122,10 @@ fun CreateChannelScreen(
                         .padding(top = 8.dp),
                     keyboardOptions = KeyboardOptions(
                         capitalization = KeyboardCapitalization.Sentences
-                    )
+                    ),
+                    keyboardActions = KeyboardActions {
+                        focusManager.clearFocus()
+                    }
                 )
                 Button(
                     modifier = Modifier

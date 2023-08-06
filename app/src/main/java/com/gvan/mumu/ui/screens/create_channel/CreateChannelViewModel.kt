@@ -1,5 +1,6 @@
 package com.gvan.mumu.ui.screens.create_channel
 
+import android.net.Uri
 import com.gvan.mumu.data.repository.ChannelsRepository
 import com.gvan.mumu.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,11 +33,19 @@ class CreateChannelViewModel @Inject constructor(
         }
     }
 
-    fun onCreateChannelPress() {
+    fun onImageChange(uri: Uri?) {
+        _state.update {
+            it.copy(
+                imageUrl = uri.toString()
+            )
+        }
+    }
+
+    fun uploadImageByUri() {
 
     }
 
-    fun createChannel() {
+    fun onCreateChannelPress() {
 
     }
 
