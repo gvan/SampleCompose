@@ -1,7 +1,5 @@
 package com.gvan.mumu.data.repository
 
-import android.util.Log
-import com.gvan.mumu.data.model.Channel
 import com.gvan.mumu.data.model.SingleMediaData
 import com.gvan.mumu.data.remote.api.MumuApi
 import com.gvan.mumu.data.model.MediaData

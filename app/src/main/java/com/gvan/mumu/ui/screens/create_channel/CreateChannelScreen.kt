@@ -1,5 +1,7 @@
 package com.gvan.mumu.ui.screens.create_channel
 
+import android.app.Activity
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -32,6 +34,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -40,6 +43,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.gvan.mumu.utils.Const
+import java.io.File
 
 @Composable
 fun CreateChannelScreen(
@@ -49,9 +54,35 @@ fun CreateChannelScreen(
 
     val state by viewModel.state.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
+    val context = LocalContext.current as Activity
+
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
-        onResult = {uri -> viewModel.onImageChange(uri)}
+        onResult = {uri ->
+            run {
+                if(uri == null) return@run
+                val file = File(context.cacheDir, "image.jpg")
+                file.createNewFile()
+
+                val inputStream = context.contentResolver.openInputStream(uri)!!
+                val outputStream = file.outputStream()
+
+                val buffer = ByteArray(4*1024)
+                var read = inputStream.read(buffer)
+                Log.d(Const.TAG, "read $read")
+                while (read != -1) {
+                    outputStream.write(buffer, 0, read)
+                    read = inputStream.read(buffer)
+                }
+
+                outputStream.flush()
+                outputStream.close()
+                inputStream.close()
+
+                Log.d(Const.TAG, "file size ${file.length()}")
+                viewModel.onImageChange(uri, file)
+            }
+        }
     )
 
     fun onPickImageClicked() {

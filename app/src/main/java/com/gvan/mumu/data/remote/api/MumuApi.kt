@@ -4,8 +4,13 @@ import com.gvan.mumu.data.model.Channel
 import com.gvan.mumu.data.model.ChannelData
 import com.gvan.mumu.data.model.SingleMediaData
 import com.gvan.mumu.data.model.MediaData
+import com.gvan.mumu.data.model.Upload
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import javax.inject.Singleton
 
@@ -20,5 +25,9 @@ interface MumuApi {
 
     @GET("/api/channels?populate=*")
     suspend fun getChannels(): Response<Channel>
+
+    @Multipart
+    @POST("/api/upload")
+    suspend fun uploadImage(@Part files: MultipartBody.Part): Response<List<Upload>>
 
 }
