@@ -3,7 +3,6 @@ package com.gvan.mumu.ui.screens.channels.components
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import com.gvan.mumu.data.model.Channel
 import com.gvan.mumu.data.model.ChannelData
 
 @Composable

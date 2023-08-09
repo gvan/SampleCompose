@@ -1,12 +1,14 @@
 package com.gvan.mumu.data.remote.api
 
 import com.gvan.mumu.data.model.Channel
-import com.gvan.mumu.data.model.ChannelData
+import com.gvan.mumu.data.model.Channels
 import com.gvan.mumu.data.model.SingleMediaData
 import com.gvan.mumu.data.model.MediaData
 import com.gvan.mumu.data.model.Upload
+import com.gvan.mumu.data.model.post_params.ChannelParams
 import okhttp3.MultipartBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -24,7 +26,10 @@ interface MumuApi {
     suspend fun getVideo(@Path("id") id: Int): Response<SingleMediaData>
 
     @GET("/api/channels?populate=*")
-    suspend fun getChannels(): Response<Channel>
+    suspend fun getChannels(): Response<Channels>
+
+    @POST("/api/channels")
+    suspend fun createChannel(@Body params: ChannelParams): Response<Channel>
 
     @Multipart
     @POST("/api/upload")

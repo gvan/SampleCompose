@@ -3,6 +3,9 @@ package com.gvan.mumu.ui.screens.create_channel
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.gvan.mumu.data.model.post_params.ChannelDataParams
+import com.gvan.mumu.data.model.post_params.ChannelImageParams
+import com.gvan.mumu.data.model.post_params.ChannelParams
 import com.gvan.mumu.data.repository.ChannelsRepository
 import com.gvan.mumu.data.repository.UploadRepository
 import com.gvan.mumu.data.repository.UploadRepositoryImpl
@@ -27,6 +30,7 @@ class CreateChannelViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(CreateChannelViewState())
     val state : StateFlow<CreateChannelViewState> = _state
+    var imageFile: File? = null
 
     fun onNameChange(name: String) {
         _state.update {
@@ -45,16 +49,18 @@ class CreateChannelViewModel @Inject constructor(
     }
 
     fun onImageChange(uri: Uri?, file: File) {
+        imageFile = file
         _state.update {
             it.copy(
                 imageUrl = uri.toString()
             )
         }
+    }
 
-        //val file = uri?.path?.let { File(it) }
-        Log.d(Const.TAG, "file path ${file.length()}")
+    fun onCreateChannelPress() {
         viewModelScope.launch {
-            getViewStateFlowForNetworkCall { uploadRepository.uploadImage(file) }
+            if(imageFile == null) return@launch
+            getViewStateFlowForNetworkCall { uploadRepository.uploadImage(imageFile!!) }
                 .collect {response ->
                     when(response) {
                         is ViewState.Loading -> {
@@ -62,6 +68,11 @@ class CreateChannelViewModel @Inject constructor(
                         }
                         is ViewState.RenderSuccess -> {
                             Log.d(Const.TAG, "upload file success")
+                            if(response.output.isNotEmpty()) {
+                                val uploadedImage = response.output[0]
+                                val imageId = uploadedImage.id
+                                createChannel(imageId)
+                            }
                         }
                         is ViewState.RenderFailure -> {
                             Log.d(Const.TAG, "upload file failure ${response.throwable}")
@@ -71,12 +82,28 @@ class CreateChannelViewModel @Inject constructor(
         }
     }
 
-    fun uploadImageByUri() {
+    private fun createChannel(imageId: Int) {
+        val params = ChannelParams(ChannelDataParams(
+            name = state.value.name,
+            description = state.value.description,
+            image = ChannelImageParams(id = imageId)
+        ))
+        viewModelScope.launch {
+            getViewStateFlowForNetworkCall { channelsRepository.createChannel(params) }
+                .collect {response ->
+                    when(response) {
+                        is ViewState.Loading -> {
 
-    }
+                        }
+                        is ViewState.RenderSuccess -> {
 
-    fun onCreateChannelPress() {
+                        }
+                        is ViewState.RenderFailure -> {
 
+                        }
+                    }
+                }
+        }
     }
 
 }
