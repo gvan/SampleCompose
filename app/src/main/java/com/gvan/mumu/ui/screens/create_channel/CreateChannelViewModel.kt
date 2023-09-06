@@ -58,6 +58,11 @@ class CreateChannelViewModel @Inject constructor(
     }
 
     fun onCreateChannelPress() {
+        _state.update {
+            it.copy(
+                loading = true
+            )
+        }
         viewModelScope.launch {
             if(imageFile == null) return@launch
             getViewStateFlowForNetworkCall { uploadRepository.uploadImage(imageFile!!) }
@@ -96,10 +101,19 @@ class CreateChannelViewModel @Inject constructor(
 
                         }
                         is ViewState.RenderSuccess -> {
-
+                            _state.update {
+                                it.copy(
+                                    loading = false,
+                                    moveBack = true,
+                                )
+                            }
                         }
                         is ViewState.RenderFailure -> {
-
+                            _state.update {
+                                it.copy(
+                                    loading = false
+                                )
+                            }
                         }
                     }
                 }
