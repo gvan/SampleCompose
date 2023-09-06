@@ -32,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusDirection
@@ -39,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
@@ -49,6 +51,7 @@ import coil.compose.AsyncImage
 import com.gvan.mumu.utils.Const
 import java.io.File
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CreateChannelScreen(
     navController: NavController,
@@ -56,6 +59,7 @@ fun CreateChannelScreen(
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     val context = LocalContext.current as Activity
     
@@ -96,6 +100,12 @@ fun CreateChannelScreen(
 
     fun onPickImageClicked() {
         galleryLauncher.launch("image/*")
+    }
+
+    fun onCreateChannelPress() {
+        keyboardController?.hide()
+        focusManager.clearFocus()
+        viewModel.onCreateChannelPress()
     }
 
     Scaffold(
@@ -171,13 +181,17 @@ fun CreateChannelScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp),
-                    onClick = { viewModel.onCreateChannelPress() }
+                    onClick = { onCreateChannelPress() }
                 ) {
                     Text(text = "Create")
                 }
             }
             if(state.loading) {
-                Box(modifier = Modifier.fillMaxSize()) {
+                Box(modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(color = Color(0x333700B3))
+                ) {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
             }
