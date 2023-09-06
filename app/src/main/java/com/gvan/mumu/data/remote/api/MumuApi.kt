@@ -9,6 +9,7 @@ import com.gvan.mumu.data.model.post_params.ChannelParams
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -30,6 +31,9 @@ interface MumuApi {
 
     @POST("/api/channels")
     suspend fun createChannel(@Body params: ChannelParams): Response<Channel>
+
+    @DELETE("/api/channels/{id}")
+    suspend fun deleteChannel(@Path("id") id: Int): Response<Channel>
 
     @Multipart
     @POST("/api/upload")

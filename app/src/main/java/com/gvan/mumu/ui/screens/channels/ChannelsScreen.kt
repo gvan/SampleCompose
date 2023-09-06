@@ -1,5 +1,6 @@
 package com.gvan.mumu.ui.screens.channels
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
@@ -22,7 +23,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.gvan.mumu.data.model.ChannelData
+import com.gvan.mumu.ui.navigation.BottomNavItem
 import com.gvan.mumu.ui.screens.channels.components.ChannelsList
+import com.gvan.mumu.utils.Const
 
 @Composable
 fun ChannelsScreen(
@@ -37,7 +40,9 @@ fun ChannelsScreen(
     }
 
     fun onChannelClick(channel: ChannelData) {
-
+        navController.navigate("channel/${channel.id}") {
+            popUpTo(BottomNavItem.Channels.route)
+        }
     }
 
     fun onCreateChannelClick() {
@@ -61,7 +66,7 @@ fun ChannelsScreen(
             Box(modifier = Modifier.padding(padding)) {
                 ChannelsList(
                     channels = state.channels,
-                    onChannelClick = {onChannelClick(channel = it)}
+                    onChannelClick = { onChannelClick(channel = it) }
                 )
             }
             if(state.loading) {

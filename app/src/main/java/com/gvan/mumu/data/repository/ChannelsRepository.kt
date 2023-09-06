@@ -15,4 +15,6 @@ interface ChannelsRepository {
 
     suspend fun createChannel(params: ChannelParams): Flow<IOTaskResult<Channel>>
 
+    suspend fun removeChannel(channelId: Int): Flow<IOTaskResult<Channel>>
+
 }

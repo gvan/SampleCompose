@@ -21,4 +21,9 @@ class ChannelsRepositoryImpl @Inject constructor(override val mumuApi: MumuApi):
             mumuApi.createChannel(params)
         }
 
+    override suspend fun removeChannel(channelId: Int): Flow<IOTaskResult<Channel>> =
+        performSafeNetworkApiCall {
+            mumuApi.deleteChannel(channelId)
+        }
+
 }

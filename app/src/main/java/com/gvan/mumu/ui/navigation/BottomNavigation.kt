@@ -20,6 +20,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.gvan.mumu.ui.screens.channel.ChannelScreen
+import com.gvan.mumu.ui.screens.channel_settings.ChannelSettingsScreen
 import com.gvan.mumu.ui.screens.channels.ChannelsScreen
 import com.gvan.mumu.ui.screens.create_channel.CreateChannelScreen
 import com.gvan.mumu.ui.screens.home.HomeScreen
@@ -47,6 +49,20 @@ fun NavigationGraph(navController: NavHostController) {
         }
         composable("createChannel") {
             CreateChannelScreen(navController = navController)
+        }
+        composable(
+            "channel/{channelId}",
+            arguments = listOf(navArgument("channelId") { type = NavType.IntType })
+        ) {navBackStackEntry ->
+            val channelId = navBackStackEntry.arguments?.getInt("channelId")
+            ChannelScreen(navController = navController, channelId = channelId ?: 0)
+        }
+        composable(
+            "channelSettings/{channelId}",
+            arguments = listOf(navArgument("channelId") {type = NavType.IntType})
+        ) {navBackStackEntry ->
+            val channelId = navBackStackEntry.arguments?.getInt("channelId")
+            ChannelSettingsScreen(navController = navController, channelId = channelId ?: 0)
         }
     }
 }

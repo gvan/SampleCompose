@@ -15,7 +15,7 @@ import com.gvan.mumu.utils.Const
 fun ChannelsListItemView(channel: ChannelData, onClick: () -> Unit) {
     Row(
         modifier = Modifier
-            .clickable { onClick }
+            .clickable { onClick() }
             .padding(16.dp)
             .fillMaxWidth(),
     ) {
