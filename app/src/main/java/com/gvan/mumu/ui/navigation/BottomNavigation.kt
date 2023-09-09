@@ -13,6 +13,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -80,7 +82,7 @@ fun AppBottomNavigation(navController: NavController) {
         contentColor = Color.LightGray
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+        val currentDestination = navBackStackEntry?.destination
         items.forEach { item ->
             BottomNavigationItem(
                 icon = {
@@ -94,11 +96,11 @@ fun AppBottomNavigation(navController: NavController) {
                 selectedContentColor = Color.Black,
                 unselectedContentColor = Color.Gray,
                 alwaysShowLabel = true,
-                selected = currentRoute == item.route,
+                selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
                 onClick = {
                     navController.navigate(item.route) {
                         navController.graph.startDestinationRoute?.let { route ->
-                            popUpTo(route) {
+                            popUpTo(navController.graph.findStartDestination().id) {
                                 saveState = true
                             }
                         }

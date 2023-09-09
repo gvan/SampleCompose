@@ -22,6 +22,9 @@ class ChannelSettingsViewModel @Inject constructor(
     val state : StateFlow<ChannelSettingsViewState> = _state
 
     fun removeChannel(channelId: Int) {
+        _state.update {
+            it.copy(loading = true)
+        }
         viewModelScope.launch {
             getViewStateFlowForNetworkCall { channelsRepository.removeChannel(channelId = channelId) }
                 .collect {response ->
@@ -33,7 +36,7 @@ class ChannelSettingsViewModel @Inject constructor(
                             _state.update {
                                 it.copy(
                                     loading = false,
-                                    moveBack = true
+                                    moveToChannels = true
                                 )
                             }
                         }
